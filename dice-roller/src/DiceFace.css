@@ -1,0 +1,55 @@
+.dice-face {
+  width: 100px;
+  height: 100px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  display: grid; /* Using grid for dot positioning */
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  background-color: white;
+}
+
+.dot {
+  width: 20px;
+  height: 20px;
+  background-color: #333;
+  border-radius: 50%;
+  align-self: center; /* Center dot in grid cell */
+  justify-self: center; /* Center dot in grid cell */
+}
+
+/* Dot positioning using grid areas might be too verbose.
+   Instead, we'll use specific grid row/column assignments for each dot.
+   The dot classes below are for specific positions.
+*/
+
+/* Common dot positions */
+.dot-top-left { grid-area: 1 / 1 / 2 / 2; }
+.dot-top-center { grid-area: 1 / 2 / 2 / 3; }
+.dot-top-right { grid-area: 1 / 3 / 2 / 4; }
+
+.dot-middle-left { grid-area: 2 / 1 / 3 / 2; }
+.dot-middle-center { grid-area: 2 / 2 / 3 / 3; }
+.dot-middle-right { grid-area: 2 / 3 / 3 / 4; }
+
+.dot-bottom-left { grid-area: 3 / 1 / 4 / 2; }
+.dot-bottom-center { grid-area: 3 / 2 / 4 / 3; }
+.dot-bottom-right { grid-area: 3 / 3 / 4 / 4; }
+
+
+/* Specific face patterns - the JS component already adds these dots with these classes */
+/* No specific CSS needed for face-1, face-2 etc. if JS handles dot classes directly. */
+/* The JS logic assigns classes like `dot-middle-center` to dots for face 1, etc. */
+
+/* Example: If we wanted to style faces differently (e.g. background) we could do:
+.face-1 { background-color: #f0f0f0; }
+.face-6 { background-color: #e0e0e0; }
+*/
+
+/*
+  Alternative for dot positioning if not using grid areas directly in JS:
+  We could have .face-1 .dot:nth-child(1) { grid-area: ... }
+  But the current JS approach of assigning specific classes like dot-top-left is more direct.
+*/
