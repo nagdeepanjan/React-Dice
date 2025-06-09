@@ -13,16 +13,6 @@
   color: white;
 }
 
-/* Style for the dice display */
-.dice {
-  font-size: 100px;
-  margin: 20px;
-  border: 2px solid white;
-  padding: 20px 40px; /* Adjusted padding for better appearance */
-  display: inline-block;
-  border-radius: 10px; /* Added border-radius for rounded corners */
-}
-
 /* Style for the roll button */
 .roll-button {
   padding: 15px 30px; /* Increased padding for a larger button */

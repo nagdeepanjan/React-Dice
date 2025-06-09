@@ -13,34 +13,42 @@ test('renders Roll Dice button', () => {
   expect(buttonElement).toBeInTheDocument();
 });
 
-test('initial dice value is between 1 and 6', () => {
+test('initial dice face is rendered correctly', () => {
   render(<App />);
-  const diceValueElement = screen.getByText(/[1-6]/); // Check for any digit from 1 to 6
-  expect(diceValueElement).toBeInTheDocument();
-  const value = parseInt(diceValueElement.textContent, 10);
+  // Check for any dice face from 1 to 6
+  const diceFaceElement = screen.getByTestId(/dice-face-[1-6]/);
+  expect(diceFaceElement).toBeInTheDocument();
+
+  // Optional: extract value from testid and check if it's in range
+  const testId = diceFaceElement.getAttribute('data-testid');
+  const value = parseInt(testId.split('-')[2], 10);
   expect(value).toBeGreaterThanOrEqual(1);
   expect(value).toBeLessThanOrEqual(6);
 });
 
-test('dice value changes after clicking Roll Dice button', () => {
+test('dice face changes after clicking Roll Dice button', () => {
   render(<App />);
   const buttonElement = screen.getByRole('button', { name: /Roll Dice/i });
-  const initialDiceValueElement = screen.getByText(/[1-6]/);
-  const initialValue = parseInt(initialDiceValueElement.textContent, 10);
+
+  // Get initial dice face, e.g. "dice-face-1"
+  const initialDiceFaceElement = screen.getByTestId(/dice-face-[1-6]/);
+  expect(initialDiceFaceElement).toBeInTheDocument();
 
   fireEvent.click(buttonElement);
 
-  const newDiceValueElement = screen.getByText(/[1-6]/);
-  const newValue = parseInt(newDiceValueElement.textContent, 10);
+  // Check for any dice face from 1 to 6 again
+  const newDiceFaceElement = screen.getByTestId(/dice-face-[1-6]/);
+  expect(newDiceFaceElement).toBeInTheDocument();
 
-  // It's possible (though unlikely for a 6-sided die) to roll the same number.
-  // A more robust test would be to check if the component attempted to re-render or if the rollDice function was called.
-  // However, for this exercise, we'll assume that if the value is present and within range, it's working.
-  // We can't guarantee a *different* value, but we can guarantee *a* value.
+  // Optional: extract new value and check if it's in range
+  const newTestId = newDiceFaceElement.getAttribute('data-testid');
+  const newValue = parseInt(newTestId.split('-')[2], 10);
   expect(newValue).toBeGreaterThanOrEqual(1);
   expect(newValue).toBeLessThanOrEqual(6);
 
-  // Optional: Check if the value *could* have changed. This isn't a perfect test.
-  // If we roll multiple times, the probability of it not changing decreases.
-  // For now, just checking it's a valid dice value is sufficient.
+  // Note: We cannot easily assert that the dice face *value* changed to a *different* specific value
+  // because the roll is random. We can assert that *a* valid dice face is present after the roll.
+  // If we wanted to test the change more thoroughly, we might need to mock Math.random or
+  // check that the data-testid attribute has changed (if it was different from the initial one).
+  // For this test, ensuring a valid dice face is rendered is the primary goal.
 });
